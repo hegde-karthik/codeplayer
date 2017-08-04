@@ -1,0 +1,144 @@
+<html>
+<head>
+    <script src="jquery-ui-1.12.1/jquery-ui.js"></script>
+    <link src="jquery-ui-1.12.1/jquery-ui.css">
+    <script src="jquery.min.js"></script>
+    <style type="text/css">
+    
+        #page_container{
+            width:100%;
+            margin:0px auto;
+        }
+    
+        .toggle_btns{
+            border-radius: 5px;
+            background-color: #E5E5E5;
+            border: 1px solid grey;
+            width:100px;
+            height:30px;
+        }
+        #menu_bar{
+             
+            background-color: #EEEEEE;
+            width:100%;
+        }
+        #logo{
+            float:left;
+            font: helvertica;
+            font-size: 25px;
+        }
+        #btns{
+            width:50%;
+            margin:0px auto;
+            padding-left: 25%;
+        }
+        
+        .active{
+            background-color: #E8F2FF;
+        }
+        .highlighted_btn{
+            background-color: grey;
+        }
+        
+        textarea{
+            resize: none;
+            width:50%;
+        }
+        .panel{
+            width:49%;
+            float:left;
+            margin-top: 2px;
+        }
+        body{
+            margin:0px;
+        }
+        .hidden{
+            display: none;
+        }
+        #outputpanel{
+            border: 1px solid grey;
+        }
+    </style>
+    </head>
+<body>
+
+    <div id="page_container">
+      
+       <div id="menu_bar">
+        <div id="logo">
+        
+                Code player
+            
+        </div>
+        <div id="btns">
+            
+            <button class="toggle_btns active" id="html">HTML</button>
+            <button class="toggle_btns" id="css">CSS</button>
+            <button class="toggle_btns" id="js">JAVASCRIPT</button>
+            <button class="toggle_btns active" id="output">OUTPUT</button>
+            
+    </div> 
+       </div>     
+    <div id="body_container">
+        <textarea id="htmlpanel" class="panel"><!--Hello!! This is html block! press enter and start typing your html code --></textarea>
+        <textarea id="csspanel" class="panel hidden">/*This is CSS block. Do all your styling here*/</textarea>
+        <textarea id="jspanel" class="panel hidden">//This is Javascript block. Do your scripting here</textarea>
+        <iframe class="panel" id="outputpanel" frameborder="0"></iframe>
+           
+          
+    </div>
+
+    </div>
+    <script type="text/javascript">
+    
+        $(".toggle_btns").hover(function(){
+            
+            $(this).addClass("highlighted_btn");
+            
+        },function(){
+            
+            $(this).removeClass("highlighted_btn");
+            
+        });
+       
+        
+        
+        $(".toggle_btns").click(function(){
+            $(this).toggleClass("active");
+            $(this).removeClass("highlighted_btn");
+            var panel_id = $(this).attr("id") + "panel";
+            $("#" +panel_id).toggleClass("hidden");
+            
+            var noActivePanels = 4 - $('.hidden').length;
+             $(".panel").width(($(window).width())/noActivePanels -10);
+        });
+    
+        
+        
+        $(".panel").height($(window).height()-$("#menu_bar").height() - 20);
+    
+        
+        
+        
+        $("textarea").on('change keyup paste', function() {
+            
+            $("#outputpanel").contents().find("html").html(
+                "<html><head><style type='text/css'>"
+                +$("#csspanel").val() +"</style></head><body>OUTPUT:</br></br>"
+                                                           
+                    +$("#htmlpanel").val() +"</body></html>");
+                document.getElementById("outputpanel").contentWindow.eval($("#jspanel").val());
+                
+        });
+             
+        
+        
+        
+        
+    </script>
+    
+    
+    </body>
+
+
+</html>
